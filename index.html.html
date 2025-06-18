@@ -1,0 +1,534 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Агентство бизнес-оптимизации</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/black.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Слайд 1: Агентство бизнес-оптимизации -->
+            <section>
+                <div class="slide-container bg-black">
+                    <!-- Honeycomb background -->
+                    <div class="honeycomb">
+                        <div class="hexagon hexagon-gold" style="top: 50px; left: 100px;"></div>
+                        <div class="hexagon" style="top: 100px; left: 190px;"></div>
+                        <div class="hexagon hexagon-highlight" style="top: 50px; left: 280px;"></div>
+                        <div class="hexagon" style="top: 150px; left: 55px;"></div>
+                        <div class="hexagon hexagon-gold" style="top: 200px; left: 145px;"></div>
+                        <div class="hexagon" style="top: 150px; left: 235px;"></div>
+                        <div class="hexagon hexagon-highlight" style="top: 200px; left: 325px;"></div>
+                        <!-- Right side decorative hexagons -->
+                        <div class="hexagon hexagon-gold" style="top: 80px; right: 100px;"></div>
+                        <div class="hexagon" style="top: 130px; right: 190px;"></div>
+                        <div class="hexagon hexagon-highlight" style="top: 80px; right: 280px;"></div>
+                        <div class="hexagon" style="top: 180px; right: 55px;"></div>
+                        <div class="hexagon hexagon-gold" style="top: 230px; right: 145px;"></div>
+                        <div class="hexagon" style="top: 180px; right: 235px;"></div>
+                        <!-- Bottom decorative hexagons -->
+                        <div class="hexagon hexagon-gold" style="bottom: 50px; left: 100px;"></div>
+                        <div class="hexagon" style="bottom: 100px; left: 190px;"></div>
+                        <div class="hexagon" style="bottom: 50px; left: 280px;"></div>
+                        <div class="hexagon hexagon-highlight" style="bottom: 150px; left: 55px;"></div>
+                        <div class="hexagon hexagon-gold" style="bottom: 200px; left: 145px;"></div>
+                        <!-- Bottom right decorative hexagons -->
+                        <div class="hexagon" style="bottom: 80px; right: 100px;"></div>
+                        <div class="hexagon hexagon-gold" style="bottom: 130px; right: 190px;"></div>
+                        <div class="hexagon hexagon-highlight" style="bottom: 80px; right: 280px;"></div>
+                        <div class="hexagon" style="bottom: 180px; right: 55px;"></div>
+                        <!-- Large 3D hexagon in center -->
+                        <div class="hexagon-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            <div class="hexagon hexagon-3d hexagon-gold" style="width: 200px; height: 220px; opacity: 0.7;"></div>
+                        </div>
+                    </div>
+                    <!-- Flying bee animation -->
+                    <div class="bee bee-path">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="50" cy="50" rx="45" ry="30" fill="#FFD700" />
+                            <ellipse cx="50" cy="40" rx="30" ry="20" fill="black" />
+                            <ellipse cx="50" cy="65" rx="30" ry="20" fill="black" />
+                            <circle cx="70" cy="30" r="15" fill="white" opacity="0.7" />
+                            <circle cx="80" cy="25" r="5" fill="white" />
+                            <line x1="20" y1="40" x2="5" y2="25" stroke="black" stroke-width="2" />
+                            <line x1="20" y1="60" x2="5" y2="75" stroke="black" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <!-- Content -->
+                    <div class="content-container flex flex-col justify-center items-start h-full">
+                        <h1 class="title text-6xl mb-4"><span class="gold-text">Агентство</span> бизнес-оптимизации</h1>
+                        <p class="subtitle text-xl mb-8">Стильная презентация нашего агентства. Сильные бизнес-решения с креативной пчелиной тематикой — эффективность, прирост, инновации.</p>
+                        <div class="flex items-center">
+                            <div class="w-16 h-1 bg-yellow-500 mr-3"></div>
+                            <p class="text-yellow-500 font-bold">ТРАНСФОРМИРУЕМ БИЗНЕС</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Слайд 2: Чем мы занимаемся? -->
+            <section>
+                <div class="slide-container bg-black">
+                    <!-- Decorative background hexagons -->
+                    <div class="background-hex" style="top: 50px; left: 50px;"></div>
+                    <div class="background-hex" style="top: 150px; left: 20px;"></div>
+                    <div class="background-hex" style="top: 250px; left: 60px;"></div>
+                    <div class="background-hex" style="bottom: 100px; left: 30px;"></div>
+                    <div class="background-hex" style="bottom: 50px; left: 120px;"></div>
+                    <div class="background-hex" style="top: 80px; right: 70px;"></div>
+                    <div class="background-hex" style="top: 200px; right: 40px;"></div>
+                    <div class="background-hex" style="bottom: 150px; right: 60px;"></div>
+                    <div class="background-hex" style="bottom: 70px; right: 130px;"></div>
+                    <!-- Content -->
+                    <div class="content-container">
+                        <div class="mb-10 text-center">
+                            <h1 class="title text-5xl mb-4">Чем мы <span class="gold-text">занимаемся?</span></h1>
+                            <p class="subtitle text-xl max-w-3xl mx-auto">
+                                Мы оптимизируем бизнес-процессы, усиливаем слабые стороны и превращаем их в преимущества. Полное сопровождение — от идеи до результата.
+                            </p>
+                            <div class="flex items-center justify-center mt-4">
+                                <div class="w-16 h-1 bg-yellow-500 mr-3"></div>
+                                <p class="text-yellow-500 font-bold">НАШИ НАПРАВЛЕНИЯ</p>
+                                <div class="w-16 h-1 bg-yellow-500 ml-3"></div>
+                            </div>
+                        </div>
+                        <div class="hex-grid mt-8">
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <i class="fas fa-chart-line hex-icon"></i>
+                                    <h3 class="hex-title">Оптимизация процессов</h3>
+                                    <p class="hex-desc">Аудит, автоматизация, настройка KPI</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <i class="fas fa-mobile-alt hex-icon"></i>
+                                    <h3 class="hex-title">Цифровые продукты</h3>
+                                    <p class="hex-desc">Сайты, приложения, чат-боты</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <i class="fas fa-palette hex-icon"></i>
+                                    <h3 class="hex-title">Дизайн и брендинг</h3>
+                                    <p class="hex-desc">Упаковка продукта, логотипы, UI/UX</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <i class="fas fa-bullhorn hex-icon"></i>
+                                    <h3 class="hex-title">Маркетинг</h3>
+                                    <p class="hex-desc">SMM, SEO, таргет, контент-маркетинг</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <i class="fas fa-users-cog hex-icon"></i>
+                                    <h3 class="hex-title">Команды</h3>
+                                    <p class="hex-desc">Поиск, обучение, аутсорсинг</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <i class="fas fa-lightbulb hex-icon"></i>
+                                    <h3 class="hex-title">Консультации</h3>
+                                    <p class="hex-desc">Стратегии роста, финансы, менторство</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <i class="fas fa-rocket hex-icon"></i>
+                                    <h3 class="hex-title">Новые продукты</h3>
+                                    <p class="hex-desc">Запуск MVP, тестирование, масштабирование</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <i class="fas fa-chart-bar hex-icon"></i>
+                                    <h3 class="hex-title">Трафик</h3>
+                                    <p class="hex-desc">Управление воронками, аналитика</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Слайд 3: Что нужно от вас? -->
+            <section>
+                <div class="slide-container bg-black">
+                    <!-- Decorative background hexagons -->
+                    <div class="background-hex" style="top: 50px; left: 50px;"></div>
+                    <div class="background-hex" style="top: 150px; left: 20px;"></div>
+                    <div class="background-hex" style="top: 250px; left: 60px;"></div>
+                    <div class="background-hex" style="bottom: 100px; left: 30px;"></div>
+                    <div class="background-hex" style="bottom: 50px; left: 120px;"></div>
+                    <div class="background-hex" style="top: 80px; right: 70px;"></div>
+                    <div class="background-hex" style="top: 200px; right: 40px;"></div>
+                    <div class="background-hex" style="bottom: 150px; right: 60px;"></div>
+                    <div class="background-hex" style="bottom: 70px; right: 130px;"></div>
+                    <!-- Content -->
+                    <div class="content-container">
+                        <div class="info-section">
+                            <h1 class="title text-4xl mb-4">Что <span class="gold-text">нужно от вас?</span></h1>
+                            <p class="subtitle text-xl mb-8">
+                                Ваше ТЗ, идея или примерный план. Пишите в любую соцсеть — ответим и начнем работать над вашим проектом!
+                            </p>
+                            <div class="flex items-center mb-8">
+                                <div class="w-16 h-1 bg-yellow-500 mr-3"></div>
+                                <p class="text-yellow-500 font-bold">ПРОСТОЕ НАЧАЛО</p>
+                            </div>
+                            <div class="feature-list">
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="feature-text">Техническое задание</div>
+                                    <span class="tooltiptext">Пришлите нам ваше ТЗ в любом удобном формате</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-lightbulb"></i>
+                                    </div>
+                                    <div class="feature-text">Идея проекта</div>
+                                    <span class="tooltiptext">Расскажите о вашей идее, мы поможем её реализовать</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-tasks"></i>
+                                    </div>
+                                    <div class="feature-text">Примерный план</div>
+                                    <span class="tooltiptext">Даже набросок плана поможет нам начать</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div class="feature-text">Обсуждение деталей</div>
+                                    <span class="tooltiptext">Свяжемся для уточнения всех нюансов проекта</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-handshake"></i>
+                                    </div>
+                                    <div class="feature-text">Согласование условий</div>
+                                    <span class="tooltiptext">Обсудим сроки, бюджет и условия сотрудничества</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visual-section flex items-center justify-center">
+                            <div class="honeycomb-3d">
+                                <div class="hexagon-3d">
+                                    <div class="icon-container">
+                                        <i class="fas fa-paper-plane main-icon"></i>
+                                        <div class="text-center text-white font-bold">
+                                            НАЧАТЬ ПРОЕКТ
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bottom navigation dots -->
+                    <div class="bottom-nav">
+                        <div class="nav-dot"></div>
+                        <div class="nav-dot"></div>
+                        <div class="nav-dot active"></div>
+                        <div class="nav-dot"></div>
+                        <div class="nav-dot"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- Слайд 4: Портфель услуг агентства -->
+            <section>
+                <div class="slide-container bg-black">
+                    <!-- Decorative background hexagons -->
+                    <div class="background-hex" style="top: 50px; left: 50px;"></div>
+                    <div class="background-hex" style="top: 150px; left: 20px;"></div>
+                    <div class="background-hex" style="top: 250px; left: 60px;"></div>
+                    <div class="background-hex" style="bottom: 100px; left: 30px;"></div>
+                    <div class="background-hex" style="bottom: 50px; left: 120px;"></div>
+                    <div class="background-hex" style="top: 80px; right: 70px;"></div>
+                    <div class="background-hex" style="top: 200px; right: 40px;"></div>
+                    <div class="background-hex" style="bottom: 150px; right: 60px;"></div>
+                    <div class="background-hex" style="bottom: 70px; right: 130px;"></div>
+                    <!-- Content -->
+                    <div class="content-container">
+                        <div class="mb-8 text-center">
+                            <h1 class="title text-5xl mb-4">Портфель <span class="gold-text">услуг агентства</span></h1>
+                            <p class="subtitle text-xl max-w-3xl mx-auto">
+                                Полный набор решений: бизнес-процессы, цифра, маркетинг, команды, консалтинг, инновации и многое другое.
+                            </p>
+                            <div class="flex items-center justify-center mt-4">
+                                <div class="w-16 h-1 bg-yellow-500 mr-3"></div>
+                                <p class="text-yellow-500 font-bold">25+ НАПРАВЛЕНИЙ</p>
+                                <div class="w-16 h-1 bg-yellow-500 ml-3"></div>
+                            </div>
+                        </div>
+                        <div class="hex-grid mt-8">
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">01</span>
+                                    <i class="fas fa-cogs hex-icon"></i>
+                                    <h3 class="hex-title">Оптимизация процессов</h3>
+                                    <p class="hex-desc">Аудит, автоматизация, настройка KPI</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">02</span>
+                                    <i class="fas fa-bullhorn hex-icon"></i>
+                                    <h3 class="hex-title">Маркетинг</h3>
+                                    <p class="hex-desc">SMM, таргет, SEO, контент</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">03</span>
+                                    <i class="fas fa-laptop-code hex-icon"></i>
+                                    <h3 class="hex-title">Цифровые продукты</h3>
+                                    <p class="hex-desc">Сайты, приложения, боты</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">04</span>
+                                    <i class="fas fa-palette hex-icon"></i>
+                                    <h3 class="hex-title">Дизайн и брендинг</h3>
+                                    <p class="hex-desc">Упаковка, логотипы, UI/UX</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">05</span>
+                                    <i class="fas fa-users-cog hex-icon"></i>
+                                    <h3 class="hex-title">Команды</h3>
+                                    <p class="hex-desc">Рекрутинг, обучение, аутсорсинг</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">06</span>
+                                    <i class="fas fa-lightbulb hex-icon"></i>
+                                    <h3 class="hex-title">Консультации</h3>
+                                    <p class="hex-desc">Стратегии, финансы, менторство</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">07</span>
+                                    <i class="fas fa-rocket hex-icon"></i>
+                                    <h3 class="hex-title">Новые продукты</h3>
+                                    <p class="hex-desc">MVP, тесты, масштабирование</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">08</span>
+                                    <i class="fas fa-chart-line hex-icon"></i>
+                                    <h3 class="hex-title">Трафик</h3>
+                                    <p class="hex-desc">Воронки продаж, аналитика</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">09</span>
+                                    <i class="fas fa-brain hex-icon"></i>
+                                    <h3 class="hex-title">Инновации и R&D</h3>
+                                    <p class="hex-desc">AI, AR/VR, блокчейн, IoT</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">10</span>
+                                    <i class="fas fa-shield-alt hex-icon"></i>
+                                    <h3 class="hex-title">Управление репутацией</h3>
+                                    <p class="hex-desc">PR, кризисный менеджмент</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">11</span>
+                                    <i class="fas fa-tasks hex-icon"></i>
+                                    <h3 class="hex-title">Продюсирование</h3>
+                                    <p class="hex-desc">Планирование, координация</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">12</span>
+                                    <i class="fas fa-photo-video hex-icon"></i>
+                                    <h3 class="hex-title">Контент-продакшн</h3>
+                                    <p class="hex-desc">Видео, фото, тексты, графика</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">13</span>
+                                    <i class="fas fa-calendar-check hex-icon"></i>
+                                    <h3 class="hex-title">Event-менеджмент</h3>
+                                    <p class="hex-desc">Корпоративы, презентации</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">14</span>
+                                    <i class="fas fa-smile-beam hex-icon"></i>
+                                    <h3 class="hex-title">Клиентский опыт</h3>
+                                    <p class="hex-desc">CX, персонализация, чат-боты</p>
+                                </div>
+                            </div>
+                            <div class="hex-item">
+                                <div class="hex-container">
+                                    <span class="hex-number">15</span>
+                                    <i class="fas fa-globe hex-icon"></i>
+                                    <h3 class="hex-title">Локализация</h3>
+                                    <p class="hex-desc">Выход на международные рынки</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Слайд 5: Оптимизация бизнес-процессов -->
+            <section>
+                <div class="slide-container bg-black">
+                    <!-- Decorative background hexagons -->
+                    <div class="background-hex" style="top: 50px; left: 50px;"></div>
+                    <div class="background-hex" style="top: 150px; left: 20px;"></div>
+                    <div class="background-hex" style="top: 250px; left: 60px;"></div>
+                    <div class="background-hex" style="bottom: 100px; left: 30px;"></div>
+                    <div class="background-hex" style="bottom: 50px; left: 120px;"></div>
+                    <div class="background-hex" style="top: 80px; right: 70px;"></div>
+                    <div class="background-hex" style="top: 200px; right: 40px;"></div>
+                    <div class="background-hex" style="bottom: 150px; right: 60px;"></div>
+                    <div class="background-hex" style="bottom: 70px; right: 130px;"></div>
+                    <!-- Content -->
+                    <div class="content-container">
+                        <div class="info-section">
+                            <h1 class="title text-4xl mb-4">1. <span class="gold-text">Оптимизация</span> бизнес-процессов</h1>
+                            <p class="subtitle text-xl mb-8">
+                                Проводим глубокий аудит текущих процессов компании, выявляем узкие места и предлагаем решения для повышения эффективности, сокращения издержек и увеличения прибыли.
+                            </p>
+                            <div class="flex items-center mb-8">
+                                <div class="w-16 h-1 bg-yellow-500 mr-3"></div>
+                                <p class="text-yellow-500 font-bold">НАШИ РЕШЕНИЯ</p>
+                            </div>
+                            <div class="feature-list">
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                    <div class="feature-text">Аудит процессов</div>
+                                    <span class="tooltiptext">Детальный анализ операционных, финансовых, логистических и управленческих процессов</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </div>
+                                    <div class="feature-text">Реинжиниринг процессов</div>
+                                    <span class="tooltiptext">Перестройка устаревших или неэффективных процессов с внедрением современных подходов</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="feature-text">Автоматизация (CRM, ERP)</div>
+                                    <span class="tooltiptext">Внедрение систем автоматизации для сокращения человеческого фактора и ускорения работы</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="feature-text">KPI и метрики</div>
+                                    <span class="tooltiptext">Разработка и настройка систем мониторинга ключевых показателей эффективности</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+                                    <div class="feature-text">Оптимизация цепочки поставок</div>
+                                    <span class="tooltiptext">Анализ и улучшение логистических процессов, сокращение времени и затрат</span>
+                                </div>
+                                <div class="feature-item tooltip">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </div>
+                                    <div class="feature-text">Управление изменениями</div>
+                                    <span class="tooltiptext">Сопровождение внедрения новых процессов, обучение сотрудников</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visual-section flex items-center justify-center">
+                            <div class="honeycomb-3d">
+                                <div class="hexagon-3d">
+                                    <div class="icon-container">
+                                        <i class="fas fa-cogs main-icon gear-animation"></i>
+                                        <div class="text-center text-white font-bold">
+                                            ОПТИМИЗАЦИЯ
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bottom navigation dots -->
+                    <div class="bottom-nav">
+                        <div class="nav-dot"></div>
+                        <div class="nav-dot"></div>
+                        <div class="nav-dot"></div>
+                        <div class="nav-dot"></div>
+                        <div class="nav-dot active"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
